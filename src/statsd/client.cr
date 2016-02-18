@@ -8,6 +8,8 @@ module Statsd
     include Methods
 
     def initialize(@host = "127.0.0.1", @port = 8125)
+      @client = UDPSocket.new
+      @destination = Socket::IPAddress.new(Socket::Family::INET, @host, @port)
     end
 
     getter :host, :port
@@ -30,14 +32,13 @@ module Statsd
         sample_rate,
       )
 
-      send_to_socket message
-    end
-
-    private def send_to_socket(message)
-      socket = UDPSocket.new
-      socket.connect(@host, @port)
-      socket << message.to_s
-      socket.close
+      begin
+        @client.send(message.to_s, @destination)
+      rescue ex : Errno
+        if ex.errno == Errno::ECONNREFUSED
+          # TODO: add a debug log event here if this occurs
+        end
+      end
     end
   end
 end

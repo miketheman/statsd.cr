@@ -45,4 +45,18 @@ describe Statsd::Client do
       statsd.host.should eq "::1"
     end
   end
+
+  describe "no server" do
+    it "sends messages when nodoby is listening" do
+      statsd = Statsd::Client.new(host: "localhost", port: 1234)
+
+      5.times do
+        statsd.increment "foobar"
+      end
+
+      5.times do
+        statsd.gauge "barfoo", 1
+      end
+    end
+  end
 end
