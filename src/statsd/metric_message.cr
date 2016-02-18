@@ -1,5 +1,5 @@
 module Statsd
-  class MetricMessage
+  struct MetricMessage
     def initialize(
       @name : String,
       @value : Number,
