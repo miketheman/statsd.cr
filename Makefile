@@ -1,3 +1,5 @@
+.PHONY: all build clean format spec release
+
 all: build
 
 build:
