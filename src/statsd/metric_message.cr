@@ -9,9 +9,9 @@ module Statsd
     end
 
     def to_s(io : IO)
-      io << "#{@name}:#{@value}|#{@metric_type}"
+      io << @name << ":" << @value << "|" << @metric_type
 
-      io << "|@#{@sample_rate}" if @sample_rate
+      io << "|@" << @sample_rate if @sample_rate
     end
   end
 end
