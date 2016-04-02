@@ -1,12 +1,15 @@
-.PHONY: all build clean format spec release
+.PHONY: all benchmark clean docs format spec release
 
-all: build
+all: spec
 
-build:
-	crystal build --stats -o bin/statsd src/statsd.cr
+benchmark: clean
+	crystal run --release examples/benchmark.cr
 
 clean:
-	rm -fr .crystal/ bin/statsd
+	rm -fr .crystal/ doc/ bin/*
+
+docs:
+	crystal docs
 
 format:
 	crystal tool format
@@ -15,4 +18,4 @@ spec:
 	crystal spec
 
 release: clean
-	crystal build --stats -o bin/statsd --release src/statsd.cr
+	# TODO: shards release
