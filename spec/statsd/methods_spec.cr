@@ -29,6 +29,12 @@ describe Statsd::Methods do
       expect_raises { statsd.gauge("foobar", -1) }
     end
 
+    it "should format the message according to the extended statsd spec" do
+      statsd.gauge("foobar", 20, tags: ["foo:bar"])
+      expected_message = "foobar:20|g|#foo:bar"
+      server.gets(expected_message.bytesize).should eq expected_message
+    end
+
     server.close
   end
 
@@ -45,10 +51,22 @@ describe Statsd::Methods do
         server.gets(expected_message.bytesize).should eq expected_message
       end
 
+      it "should format the message according to the extended statsd spec" do
+        statsd.increment("foobar", tags: ["foo:bar"])
+        expected_message = "foobar:1|c|#foo:bar"
+        server.gets(expected_message.bytesize).should eq expected_message
+      end
+
       describe "with a sample rate" do
         it "should format the message according to the statsd spec" do
           statsd.increment("foobar", 0.5)
           expected_message = "foobar:1|c|@0.5"
+          server.gets(expected_message.bytesize).should eq expected_message
+        end
+
+        it "should format the message according to the extended statsd spec" do
+          statsd.increment("foobar", 0.5, tags: ["foo:bar"])
+          expected_message = "foobar:1|c|@0.5|#foo:bar"
           server.gets(expected_message.bytesize).should eq expected_message
         end
       end
@@ -68,10 +86,22 @@ describe Statsd::Methods do
         server.gets(expected_message.bytesize).should eq expected_message
       end
 
+      it "should format the message according to the extended statsd spec" do
+        statsd.decrement("foobar", tags: ["foo:bar"])
+        expected_message = "foobar:-1|c|#foo:bar"
+        server.gets(expected_message.bytesize).should eq expected_message
+      end
+
       describe "with a sample rate" do
         it "should format the message according to the statsd spec" do
           statsd.decrement("foobar", 0.5)
           expected_message = "foobar:-1|c|@0.5"
+          server.gets(expected_message.bytesize).should eq expected_message
+        end
+
+        it "should format the message according to the extended statsd spec" do
+          statsd.decrement("foobar", 0.5, tags: ["foo:bar"])
+          expected_message = "foobar:-1|c|@0.5|#foo:bar"
           server.gets(expected_message.bytesize).should eq expected_message
         end
       end
@@ -97,6 +127,12 @@ describe Statsd::Methods do
         expect_raises { statsd.timing("foobar", -500) }
       end
 
+      it "should format the message according to the extended statsd spec" do
+        statsd.timing("foobar", 500, tags: ["foo:bar"])
+        expected_message = "foobar:500|ms|#foo:bar"
+        server.gets(expected_message.bytesize).should eq expected_message
+      end
+
       server.close
     end
 
@@ -109,6 +145,12 @@ describe Statsd::Methods do
       it "should format the message according to the statsd spec" do
         statsd.time("foobar") { "test" }
         expected_message = "foobar:0|ms"
+        server.gets(expected_message.bytesize).should eq expected_message
+      end
+
+      it "should format the message according to the extended statsd spec" do
+        statsd.time("foobar", tags: ["foo:bar"]) { "test" }
+        expected_message = "foobar:0|ms|#foo:bar"
         server.gets(expected_message.bytesize).should eq expected_message
       end
 
@@ -125,6 +167,12 @@ describe Statsd::Methods do
     it "should format the message according to the statsd spec" do
       statsd.set("foobar", 1)
       expected_message = "foobar:1|s"
+      server.gets(expected_message.bytesize).should eq expected_message
+    end
+
+    it "should format the message according to the extended statsd spec" do
+      statsd.set("foobar", 1, tags: ["foo:bar"])
+      expected_message = "foobar:1|s|#foo:bar"
       server.gets(expected_message.bytesize).should eq expected_message
     end
 
@@ -145,6 +193,12 @@ describe Statsd::Methods do
 
     it "should raise an exception for negative values" do
       expect_raises { statsd.histogram("foobar", -50) }
+    end
+
+    it "should format the message according to the extended statsd spec" do
+      statsd.histogram("foobar", 50, tags: ["foo:bar"])
+      expected_message = "foobar:50|h|#foo:bar"
+      server.gets(expected_message.bytesize).should eq expected_message
     end
 
     server.close

@@ -24,12 +24,13 @@ module Statsd
       @port = port || 8125
     end
 
-    private def send_metric(name, value, metric_type, sample_rate = nil)
+    private def send_metric(name, value, metric_type, sample_rate = nil, tags = nil)
       message = MetricMessage.new(
         name,
         value,
         metric_type,
         sample_rate,
+        tags,
       )
 
       begin

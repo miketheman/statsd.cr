@@ -5,9 +5,9 @@ module Statsd
     # A gauge is an instantaneous measurement of a value, like the gas gauge in a car.
     # It differs from a counter by being calculated at the client rather than the server.
     # Valid gauge values are in the range [0, 2^64^)
-    def gauge(metric_name, value)
+    def gauge(metric_name, value, tags = nil)
       raise "Gauges may only receive positive values" unless positive? value
-      send_metric(metric_name, value, "g")
+      send_metric(metric_name, value, "g", tags: tags)
     end
 
     # Counters
@@ -23,12 +23,12 @@ module Statsd
     # <metric name>:<value>|c[|@<sample rate>]
     # ```
 
-    def increment(metric_name, sample_rate = nil)
-      send_metric(metric_name, 1, "c", sample_rate)
+    def increment(metric_name, sample_rate = nil, tags = nil)
+      send_metric(metric_name, 1, "c", sample_rate, tags: tags)
     end
 
-    def decrement(metric_name, sample_rate = nil)
-      send_metric(metric_name, -1, "c", sample_rate)
+    def decrement(metric_name, sample_rate = nil, tags = nil)
+      send_metric(metric_name, -1, "c", sample_rate, tags: tags)
     end
 
     # Timers
@@ -49,16 +49,16 @@ module Statsd
     # ```
     # stastd.timing("db.query", 200)
     # ```
-    def timing(metric_name, ms)
+    def timing(metric_name, ms, tags = nil)
       raise "Timers may only receive positive values" unless positive? ms
-      send_metric(metric_name, ms, "ms")
+      send_metric(metric_name, ms, "ms", tags: tags)
     end
 
     # Measure execution time of a given block, using {#timing}.
-    def time(metric_name)
+    def time(metric_name, tags = nil)
       start = Time.now
       result = yield
-      timing(metric_name, ((Time.now - start) * 1000).to_i)
+      timing(metric_name, ((Time.now - start) * 1000).to_i, tags: tags)
       result
     end
 
@@ -69,8 +69,8 @@ module Statsd
     # ```
     # <metric name>:<value>|s
     # ```
-    def set(metric_name, value)
-      send_metric(metric_name, value, "s")
+    def set(metric_name, value, tags = nil)
+      send_metric(metric_name, value, "s", tags: tags)
     end
 
     # Histograms
@@ -83,9 +83,9 @@ module Statsd
     # ```
     # <metric name>:<value>|h
     # ```
-    def histogram(metric_name, value)
+    def histogram(metric_name, value, tags = nil)
       raise "Histograms may only receive positive values" unless positive? value
-      send_metric(metric_name, value, "h")
+      send_metric(metric_name, value, "h", tags: tags)
     end
 
     # Helpers

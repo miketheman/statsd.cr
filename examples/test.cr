@@ -6,7 +6,7 @@ require "../src/statsd.cr"
 statsd = Statsd::Client.new
 
 5.times do
-  statsd.increment "page.views"
+  statsd.increment "page.views", tags: ["page:home"]
 end
 
 5.times do
