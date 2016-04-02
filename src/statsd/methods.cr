@@ -58,7 +58,7 @@ module Statsd
     def time(metric_name)
       start = Time.now
       result = yield
-      timing(metric_name, ((Time.now - start) * 1000).to_i) #.round)
+      timing(metric_name, ((Time.now - start) * 1000).to_i)
       result
     end
 
