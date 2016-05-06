@@ -2,9 +2,10 @@ module Statsd
   struct MetricMessage
     def initialize(
       @name : String,
-      @value : Number,
+      # TODO: replace with Number::Primitive in release post-0.16.0
+      @value : Int::Primitive | Float::Primitive,
       @metric_type : String,
-      @sample_rate = nil,
+      @sample_rate : Int::Primitive | Float::Primitive | Nil = nil,
       @tags : Array(String)? = nil,
     )
     end
