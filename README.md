@@ -32,11 +32,11 @@ See `examples/test.cr` for more.
 
 ## Contributing
 
-1. Fork it ( https://github.com/[your-github-name]/statsd/fork )
-2. Create your feature branch (git checkout -b my-new-feature)
+1. [Fork it](https://github.com/miketheman/statsd.cr/fork)
+2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Test your changes with `make spec`
-4. Commit your changes (git commit -am 'Add some feature')
-5. Push to the branch (git push origin my-new-feature)
+4. Commit your changes (`git commit -am 'Add some feature'`)
+5. Push to the branch (`git push origin my-new-feature`)
 6. Create a new Pull Request
 
 
