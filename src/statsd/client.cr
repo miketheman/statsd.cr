@@ -25,16 +25,15 @@ module Statsd
     end
 
     private def send_metric(name, value, metric_type, sample_rate = nil, tags = nil)
-      message = MetricMessage.new(
+      message = MetricMessage.serialize_metric(
         name,
         value,
         metric_type,
         sample_rate,
-        tags,
-      )
+        tags)
 
       begin
-        @client.send(message.to_s, @destination)
+        @client.send(message, @destination)
       rescue ex : Errno
         if ex.errno == Errno::ECONNREFUSED
           # TODO: add a debug log event here if this occurs
