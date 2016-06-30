@@ -57,9 +57,11 @@ module Statsd
     # Measure execution time of a given block, using {#timing}.
     def time(metric_name, tags = nil)
       start = Time.now
-      result = yield
-      timing(metric_name, ((Time.now - start) * 1000).to_i, tags: tags)
-      result
+      yield
+    ensure
+      if start
+        timing(metric_name, ((Time.now - start) * 1000).to_i, tags: tags)
+      end
     end
 
     # Sets

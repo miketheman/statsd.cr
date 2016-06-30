@@ -154,6 +154,14 @@ describe Statsd::Methods do
         server.gets(expected_message.bytesize).should eq expected_message
       end
 
+      it "should emit a timing even if the block raises" do
+        expect_raises do
+          statsd.time("foobar", tags: ["foo:exception"]) { raise "lolwut" }
+        end
+        expected_message = "foobar:0|ms|#foo:exception"
+        server.gets(expected_message.bytesize).should eq expected_message
+      end
+
       server.close
     end
   end
