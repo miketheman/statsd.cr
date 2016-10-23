@@ -3,6 +3,7 @@
 A [statsd](https://github.com/etsy/statsd) client library for [Crystal](http://crystal-lang.org/).
 
 [![Build Status](https://travis-ci.org/miketheman/statsd.cr.svg?branch=master)](https://travis-ci.org/miketheman/statsd.cr)
+[![crystal-docs.org](https://crystal-docs.org/badge.svg)](https://crystal-docs.org/miketheman/statsd.cr)
 
 ## Installation
 
