@@ -9,7 +9,7 @@ module Statsd
 
     def initialize(@host = "127.0.0.1", @port = 8125)
       @client = UDPSocket.new
-      @destination = Socket::IPAddress.new(Socket::Family::INET, @host, @port)
+      @destination = Socket::IPAddress.new(@host, @port)
     end
 
     getter :host, :port
