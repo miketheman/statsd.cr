@@ -3,8 +3,8 @@ require "../spec_helper"
 describe Statsd::Client do
   describe "#initialize" do
     it "should set the host and port" do
-      statsd = Statsd::Client.new("localhost", 1234)
-      statsd.host.should eq "localhost"
+      statsd = Statsd::Client.new("127.0.0.1", 1234)
+      statsd.host.should eq "127.0.0.1"
       statsd.port.should eq 1234
     end
 
@@ -25,11 +25,6 @@ describe Statsd::Client do
       statsd.port.should eq 5678
     end
 
-    it "should not resolve hostnames to IPs" do
-      statsd.host = "localhost"
-      statsd.host.should eq "localhost"
-    end
-
     it "should set nil host to default" do
       statsd.host = nil
       statsd.host.should eq "127.0.0.1"
@@ -48,7 +43,7 @@ describe Statsd::Client do
 
   describe "no server" do
     it "sends messages when nodoby is listening" do
-      statsd = Statsd::Client.new(host: "localhost", port: 1234)
+      statsd = Statsd::Client.new(host: "127.0.0.1", port: 1234)
 
       5.times do
         statsd.increment "foobar"

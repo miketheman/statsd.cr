@@ -5,7 +5,7 @@ describe Statsd::Methods do
     server = UDPSocket.new
     server.bind("localhost", 1234)
 
-    statsd = Statsd::Client.new(host: "localhost", port: 1234)
+    statsd = Statsd::Client.new(host: "127.0.0.1", port: 1234)
 
     it "should format the message according to the statsd spec" do
       statsd.gauge("foobar", 20)
@@ -43,7 +43,7 @@ describe Statsd::Methods do
       server = UDPSocket.new
       server.bind("localhost", 1234)
 
-      statsd = Statsd::Client.new(host: "localhost", port: 1234)
+      statsd = Statsd::Client.new(host: "127.0.0.1", port: 1234)
 
       it "should format the message according to the statsd spec" do
         statsd.increment("foobar")
@@ -78,7 +78,7 @@ describe Statsd::Methods do
       server = UDPSocket.new
       server.bind("localhost", 1234)
 
-      statsd = Statsd::Client.new(host: "localhost", port: 1234)
+      statsd = Statsd::Client.new(host: "127.0.0.1", port: 1234)
 
       it "should format the message according to the statsd spec" do
         statsd.decrement("foobar")
@@ -113,9 +113,9 @@ describe Statsd::Methods do
   context "timers" do
     describe "#timing" do
       server = UDPSocket.new
-      server.bind("localhost", 1234)
+      server.bind("127.0.0.1", 1234)
 
-      statsd = Statsd::Client.new(host: "localhost", port: 1234)
+      statsd = Statsd::Client.new(host: "127.0.0.1", port: 1234)
 
       it "should format the message according to the statsd spec" do
         statsd.timing("foobar", 500)
@@ -138,9 +138,9 @@ describe Statsd::Methods do
 
     describe "#time" do
       server = UDPSocket.new
-      server.bind("localhost", 1234)
+      server.bind("127.0.0.1", 1234)
 
-      statsd = Statsd::Client.new(host: "localhost", port: 1234)
+      statsd = Statsd::Client.new(host: "127.0.0.1", port: 1234)
 
       it "should format the message according to the statsd spec" do
         statsd.time("foobar") { "test" }
@@ -168,9 +168,9 @@ describe Statsd::Methods do
 
   describe "#set" do
     server = UDPSocket.new
-    server.bind("localhost", 1234)
+    server.bind("127.0.0.1", 1234)
 
-    statsd = Statsd::Client.new(host: "localhost", port: 1234)
+    statsd = Statsd::Client.new(host: "127.0.0.1", port: 1234)
 
     it "should format the message according to the statsd spec" do
       statsd.set("foobar", 1)
@@ -189,9 +189,9 @@ describe Statsd::Methods do
 
   describe "#histogram" do
     server = UDPSocket.new
-    server.bind("localhost", 1234)
+    server.bind("127.0.0.1", 1234)
 
-    statsd = Statsd::Client.new(host: "localhost", port: 1234)
+    statsd = Statsd::Client.new(host: "127.0.0.1", port: 1234)
 
     it "should format the message according to the statsd spec" do
       statsd.histogram("foobar", 50)
