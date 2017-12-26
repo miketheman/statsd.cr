@@ -26,7 +26,7 @@ describe Statsd::Methods do
     end
 
     it "should raise an exception for negative values" do
-      expect_raises { statsd.gauge("foobar", -1) }
+      expect_raises(Exception) { statsd.gauge("foobar", -1) }
     end
 
     it "should format the message according to the extended statsd spec" do
@@ -124,7 +124,7 @@ describe Statsd::Methods do
       end
 
       it "should raise an exception for negative values" do
-        expect_raises { statsd.timing("foobar", -500) }
+        expect_raises(Exception) { statsd.timing("foobar", -500) }
       end
 
       it "should format the message according to the extended statsd spec" do
@@ -155,7 +155,7 @@ describe Statsd::Methods do
       end
 
       it "should emit a timing even if the block raises" do
-        expect_raises do
+        expect_raises(Exception) do
           statsd.time("foobar", tags: ["foo:exception"]) { raise "lolwut" }
         end
         expected_message = "foobar:0|ms|#foo:exception"
@@ -200,7 +200,7 @@ describe Statsd::Methods do
     end
 
     it "should raise an exception for negative values" do
-      expect_raises { statsd.histogram("foobar", -50) }
+      expect_raises(Exception) { statsd.histogram("foobar", -50) }
     end
 
     it "should format the message according to the extended statsd spec" do
