@@ -60,7 +60,7 @@ module Statsd
       yield
     ensure
       if start
-        timing(metric_name, (Time.monotonic - start).total_milliseconds, tags: tags)
+        timing(metric_name, (Time.monotonic - start).total_milliseconds.to_i, tags: tags)
       end
     end
 
