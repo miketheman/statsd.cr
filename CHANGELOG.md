@@ -5,6 +5,7 @@ This project aims to adhere to [Semantic Versioning](http://semver.org/).
 
 # 0.2.0 / Unreleased
 
+- Crystal 0.34.0 replaced the Error condition <https://github.com/crystal-lang/crystal/pull/8885>
 - **Breaking** Crystal 0.20.3 stopped automatic client hostname resolution, requiring a full IP address
 - Feature: Emit timing from a block even if raised
 - (Internal) Update MetricMessage to support Crystal 0.16.0
