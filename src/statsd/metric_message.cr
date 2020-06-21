@@ -12,11 +12,12 @@ module Statsd
 
     # :nodoc:
     def self.serialize_metric(
-                              name : String,
-                              value : Number::Primitive,
-                              metric_type : String,
-                              sample_rate : Number::Primitive | Nil = nil,
-                              tags : Array(String)? = nil)
+      name : String,
+      value : Number::Primitive,
+      metric_type : String,
+      sample_rate : Number::Primitive | Nil = nil,
+      tags : Array(String)? = nil
+    )
       String.build do |io|
         io << name << ":" << value << "|" << metric_type
         io << "|@" << sample_rate if sample_rate

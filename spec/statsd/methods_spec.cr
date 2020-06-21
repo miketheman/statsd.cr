@@ -7,7 +7,6 @@ private def with_server(& : UDPSocket, Statsd::Client ->)
   statsd = Statsd::Client.new(host: "127.0.0.1", port: 1234)
 
   yield server, statsd
-
 ensure
   server.close if server
 end
