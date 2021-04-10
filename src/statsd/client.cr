@@ -1,4 +1,3 @@
-require "logger"
 require "socket"
 
 require "./methods"
