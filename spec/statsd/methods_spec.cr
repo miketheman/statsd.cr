@@ -221,4 +221,28 @@ describe Statsd::Methods do
       end
     end
   end
+
+  describe "#distribution" do
+    it "should format the message according to the statsd spec" do
+      with_server do |server, statsd|
+        statsd.distribution("foobar", 50)
+        expected_message = "foobar:50|d"
+        server.gets(expected_message.bytesize).should eq expected_message
+      end
+    end
+
+    it "should raise an exception for negative values" do
+      with_server do |server, statsd|
+        expect_raises(Exception) { statsd.distribution("foobar", -50) }
+      end
+    end
+
+    it "should format the message according to the extended statsd spec" do
+      with_server do |server, statsd|
+        statsd.distribution("foobar", 50, tags: ["foo:bar"])
+        expected_message = "foobar:50|d|#foo:bar"
+        server.gets(expected_message.bytesize).should eq expected_message
+      end
+    end
+  end
 end

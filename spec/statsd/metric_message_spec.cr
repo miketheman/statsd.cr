@@ -7,6 +7,11 @@ describe Statsd::MetricMessage do
       message.should eq("users.current:20|g")
     end
 
+    it "supports #distribution" do
+      message = Statsd::MetricMessage.serialize_metric("request.latency", 20.0442, "d")
+      message.should eq("request.latency:20.0442|d")
+    end
+
     it "supports #counter (Int32)" do
       message = Statsd::MetricMessage.serialize_metric("page.views", 1, "c")
       message.should eq("page.views:1|c")

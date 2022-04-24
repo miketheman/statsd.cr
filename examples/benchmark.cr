@@ -11,4 +11,5 @@ Benchmark.ips do |x|
   x.report("gauges w/tags") { statsd.gauge("users.current", 5, tags: ["foo:bar"]) }
   x.report("timing") { statsd.timing("db.query", 100) }
   x.report("time") { statsd.time("timed.block") { true } }
+  x.report("distribution") { statsd.distribution("request.latency", 5) }
 end

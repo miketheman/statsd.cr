@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 This project aims to adhere to [Semantic Versioning](http://semver.org/).
 
+## 0.4.0 / 2022-04-24
+
+- Added `Statsd::Client.distribution(metric_name, value, tags)` for Datadog compatibility
+
 ## 0.3.0 / 2021-04-11
 
 - Crystal 0.35.1 removed Errno, so was removed in code as well #15
