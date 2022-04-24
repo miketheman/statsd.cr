@@ -1,5 +1,12 @@
 module Statsd
   module Methods
+    COUNTER_TYPE      = "c"
+    GAUGE_TYPE        = "g"
+    HISTOGRAM_TYPE    = "h"
+    DISTRIBUTION_TYPE = "d"
+    TIMING_TYPE       = "ms"
+    SET_TYPE          = "s"
+
     # Gauge
     #
     # A gauge is an instantaneous measurement of a value, like the gas gauge in a car.
@@ -7,7 +14,7 @@ module Statsd
     # Valid gauge values are in the range [0, 2^64^)
     def gauge(metric_name, value, tags = nil)
       raise "Gauges may only receive positive values" unless positive? value
-      send_metric(metric_name, value, "g", tags: tags)
+      send_metric(metric_name, value, GAUGE_TYPE, tags: tags)
     end
 
     # Counters
@@ -24,11 +31,11 @@ module Statsd
     # ```
 
     def increment(metric_name, sample_rate = nil, tags = nil)
-      send_metric(metric_name, 1, "c", sample_rate, tags: tags)
+      send_metric(metric_name, 1, COUNTER_TYPE, sample_rate, tags: tags)
     end
 
     def decrement(metric_name, sample_rate = nil, tags = nil)
-      send_metric(metric_name, -1, "c", sample_rate, tags: tags)
+      send_metric(metric_name, -1, COUNTER_TYPE, sample_rate, tags: tags)
     end
 
     # Timers
@@ -51,7 +58,7 @@ module Statsd
     # ```
     def timing(metric_name, ms, tags = nil)
       raise "Timers may only receive positive values" unless positive? ms
-      send_metric(metric_name, ms, "ms", tags: tags)
+      send_metric(metric_name, ms, TIMING_TYPE, tags: tags)
     end
 
     # Measure execution time of a given block, using {#timing}.
@@ -72,7 +79,7 @@ module Statsd
     # <metric name>:<value>|s
     # ```
     def set(metric_name, value, tags = nil)
-      send_metric(metric_name, value, "s", tags: tags)
+      send_metric(metric_name, value, SET_TYPE, tags: tags)
     end
 
     # Histograms
@@ -87,7 +94,32 @@ module Statsd
     # ```
     def histogram(metric_name, value, tags = nil)
       raise "Histograms may only receive positive values" unless positive? value
-      send_metric(metric_name, value, "h", tags: tags)
+      send_metric(metric_name, value, HISTOGRAM_TYPE, tags: tags)
+    end
+
+    # Distributions
+    #
+    # The DISTRIBUTION metric type is specific to DataDog (DogStatsD).
+    #
+    # The DISTRIBUTION metric submission type represents the global statistical distribution of a set of values calculated across your entire distributed infrastructure in one time interval.
+    # A DISTRIBUTION can be used to instrument logical objects, like services, independently from the underlying hosts.
+    #
+    # Unlike the HISTOGRAM metric type, which aggregates on the Agent during a given time interval, a DISTRIBUTION metric sends all the raw data during a time interval to Datadog.
+    # Aggregations occur on the server-side. Because the underlying data structure represents raw, un-aggregated data, distributions provide two major features:
+    #
+    # - Calculation of percentile aggregations
+    # - Customization of tagging
+    #
+    # Like other metric types, such as GAUGE or HISTOGRAM, the DISTRIBUTION metric type has the following aggregations available:
+    # count, min, max, sum, and avg
+    #
+    # Example:
+    # ```
+    # <metric name>:<value>|d
+    # ```
+    def distribution(metric_name, value, tags = nil)
+      raise "distribution may only receive positive values" unless positive? value
+      send_metric(metric_name, value, DISTRIBUTION_TYPE, tags: tags)
     end
 
     # Helpers
