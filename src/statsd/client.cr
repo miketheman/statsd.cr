@@ -6,21 +6,21 @@ module Statsd
   class Client
     include Methods
 
-    def initialize(@host = "127.0.0.1", @port = 8125)
+    def self.new(host : String = "127.0.0.1", port : Int = 8125)
+      new(Socket::IPAddress.new(host, port))
+    end
+
+    def initialize(@destination = Socket::IPAddress.new("127.0.0.1", 8125))
       @client = UDPSocket.new
-      @destination = Socket::IPAddress.new(@host, @port)
+      @client.connect @destination
     end
 
-    getter :host, :port
-
-    # StatsD host. Defaults to 127.0.0.1.
-    def host=(host)
-      @host = host || "127.0.0.1"
+    def host
+      @destination.address
     end
 
-    # StatsD port. Defaults to 8125.
-    def port=(port)
-      @port = port || 8125
+    def port
+      @destination.port
     end
 
     private def send_metric(name, value, metric_type, sample_rate = nil, tags = nil)
@@ -32,7 +32,7 @@ module Statsd
         tags)
 
       begin
-        @client.send(message, @destination)
+        @client.send(message)
       rescue ex : IO::Error
       end
     end
