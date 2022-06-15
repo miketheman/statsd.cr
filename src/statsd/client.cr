@@ -12,7 +12,6 @@ module Statsd
 
     def initialize(@destination = Socket::IPAddress.new("127.0.0.1", 8125))
       @client = UDPSocket.new
-      @client.connect @destination
     end
 
     def host
@@ -32,7 +31,7 @@ module Statsd
         tags)
 
       begin
-        @client.send(message)
+        @client.send(message, @destination)
       rescue ex : IO::Error
       end
     end
