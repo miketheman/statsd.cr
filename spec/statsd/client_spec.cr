@@ -13,6 +13,12 @@ describe Statsd::Client do
       statsd.host.should eq "127.0.0.1"
       statsd.port.should eq 8125
     end
+
+    it "accepts an IPAddress" do
+      statsd = Statsd::Client.new Socket::IPAddress.new("127.0.0.2", 2345)
+      statsd.host.should eq "127.0.0.2"
+      statsd.port.should eq 2345
+    end
   end
 
   describe "no server" do
