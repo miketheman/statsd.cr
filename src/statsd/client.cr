@@ -6,7 +6,7 @@ module Statsd
   class Client
     include Methods
 
-    def self.new(host : String = "127.0.0.1", port : Int = 8125)
+    def self.new(host : String, port : Int)
       new(Socket::IPAddress.new(host, port))
     end
 
