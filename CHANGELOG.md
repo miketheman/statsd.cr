@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 This project aims to adhere to [Semantic Versioning](http://semver.org/).
 
+## 0.5.0 / 2022-06-20
+
+- Correct client initialization behavior to accept an IPAddress.
+
 ## 0.4.0 / 2022-04-24
 
 - Added `Statsd::Client.distribution(metric_name, value, tags)` for Datadog compatibility
