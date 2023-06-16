@@ -1,0 +1,6 @@
+image: gitpod/workspace-full
+
+tasks:
+  - name: Install Crystal & Run Tests
+    before: curl -fsSL https://crystal-lang.org/install.sh | sudo bash
+    init: make
