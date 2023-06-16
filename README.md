@@ -1,8 +1,8 @@
 # statsd.cr
 
-A [statsd](https://github.com/etsy/statsd) client library for [Crystal](http://crystal-lang.org/).
+A [statsd](https://github.com/statsd/statsd) client library for [Crystal](https://crystal-lang.org/).
 
-![Crystal CI](https://github.com/miketheman/statsd.cr/workflows/Crystal%20CI/badge.svg)
+[![Crystal CI](https://github.com/miketheman/statsd.cr/actions/workflows/crystal.yml/badge.svg)](https://github.com/miketheman/statsd.cr/actions/workflows/crystal.yml)
 
 ## Installation
 
