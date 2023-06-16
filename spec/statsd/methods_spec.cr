@@ -31,7 +31,7 @@ describe Statsd::Methods do
 
     it "should allow a UInt64 value" do
       with_server do |server, statsd|
-        statsd.gauge("foobar", 18446744073709551615)
+        statsd.gauge("foobar", 18446744073709551615_u64)
         expected_message = "foobar:18446744073709551615|g"
         server.gets(expected_message.bytesize).should eq expected_message
       end
